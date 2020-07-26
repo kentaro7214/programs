@@ -1,4 +1,4 @@
-#%%
+#%% 引数1にBPM,引数2にループ回数をとってる。
 import random
 import os
 import numpy
