@@ -11,11 +11,9 @@ import time
 import pandas as pd
 import math
 import threading
-#%%
+#%%　コードと度数と周波数の定義。key_frequencyにキーと周波数の辞書として格納
 tone = ["Ab","A","A#","Bb","B","C","C#","Db","D","D#","Eb","E","F","F#","Gb","G","G#"]
 chord = ["M7","m7","7","m7b5"]
-#sys.argv[1] = 120
-#%%
 tone_deg = {"Ab":-1,"A":0,"A#":1,"Bb":1,"B":2,"C":-9,"C#":-8,"Db":-8,"D":-7,"D#":-6,"Eb":-6,"E":-5,"F":-4,"F#":-3,"Gb":-3,"G":-2,"G#":-1}
 chord_deg = ["M7","m7","7","m7b5"]
 key_frequency = {}
@@ -23,16 +21,13 @@ degree = -9
 for k,v in tone_deg.items():
     key_frequency[k] = 440*2**(int(v)/12)
 
+#%%　正弦波を作成するコマンド
 def sine(frequency, length, rate):
   length = int(length * rate)
   factor = float(frequency) * (math.pi * 2) / rate
   return np.sin(np.arange(length) * factor)
 
-#%% 　ここをif文に入れればok
-def sine(frequency, length, rate):
-  length = int(length * rate)
-  factor = float(frequency) * (math.pi * 2) / rate
-  return numpy.sin(numpy.arange(length) * factor)
+#%% 　平均律で各種コードを定義。ルートからの度数乗してる。←純正律の方がゆらぎの関係
 
 def Mm7(frequency, length, rate):
   # 音源生成
@@ -50,7 +45,7 @@ def Mm7(frequency, length, rate):
   
   return res
 
-def play_7(stream, frequency=440, length=240/int(sys.argv[1]), rate=44100):
+def play_7(stream, frequency, length=240/int(sys.argv[1]), rate=44100):
   chunks = []
   chunks.append(Mm7(frequency, length, rate))
   chunk = numpy.concatenate(chunks) * 0.25
@@ -73,7 +68,7 @@ def M7(frequency, length, rate):
   
   return res
 
-def play_M7(stream, frequency=440, length=240/int(sys.argv[1]), rate=44100):
+def play_M7(stream, frequency, length=240/int(sys.argv[1]), rate=44100):
   chunks = []
   chunks.append(M7(frequency, length, rate))
   chunk = numpy.concatenate(chunks) * 0.25
@@ -95,7 +90,7 @@ def m7(frequency, length, rate):
   
   return res
 
-def play_m7(stream, frequency=440, length=240/int(sys.argv[1]), rate=44100):
+def play_m7(stream, frequency, length=240/int(sys.argv[1]), rate=44100):
   chunks = []
   chunks.append(m7(frequency, length, rate))
   chunk = numpy.concatenate(chunks) * 0.25
@@ -117,17 +112,14 @@ def m7b5(frequency, length, rate):
   
   return res
 
-def play_m7b5(stream, frequency=440, length=240/int(sys.argv[1]), rate=44100):
+def play_m7b5(stream, frequency, length=240/int(sys.argv[1]), rate=44100):
   chunks = []
   chunks.append(m7b5(frequency, length, rate))
   chunk = numpy.concatenate(chunks) * 0.25
   stream.write(chunk.astype(numpy.float32).tobytes())
-#%%
 
 
-
-
-#%%
+#%%　コードならす関数。選ばれたコードの文字列一致で条件付け。
 
 def play_chord(chord,key):
     p = pyaudio.PyAudio()
@@ -196,8 +188,3 @@ while count <= int(sys.argv[2]):
     time.sleep(60/int(sys.argv[1]))
 print("Finish")
 os.system("afplay /System/Library/Sounds/Bottle.aiff")
-
-# %%
-
-#%%
-# %%
