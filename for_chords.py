@@ -25,7 +25,7 @@ for k,v in tone_deg.items():
 def sine(frequency, length, rate):
   length = int(length * rate)
   factor = float(frequency) * (math.pi * 2) / rate
-  return np.sin(np.arange(length) * factor)
+  return numpy.sin(numpy.arange(length) * factor)
 
 #%% 　平均律で各種コードを定義。ルートからの度数乗してる。←純正律の方がゆらぎの関係
 
